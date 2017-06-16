@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNF.EFUnitwork", "GNF.DbRepositories\GNF.EFUnitwork.csproj", "{6E538ED7-2E02-4EF6-88BF-0D3DBCF79CE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNF.Domain", "GNF.Domain\GNF.Domain.csproj", "{2D7FA3A5-71FA-406A-B1B8-62375A8D80AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNF.Common", "GNF.Common\GNF.Common.csproj", "{C2B9C3AC-9DB8-4113-94DF-945DEE6ABFF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E538ED7-2E02-4EF6-88BF-0D3DBCF79CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E538ED7-2E02-4EF6-88BF-0D3DBCF79CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E538ED7-2E02-4EF6-88BF-0D3DBCF79CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E538ED7-2E02-4EF6-88BF-0D3DBCF79CE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D7FA3A5-71FA-406A-B1B8-62375A8D80AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D7FA3A5-71FA-406A-B1B8-62375A8D80AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D7FA3A5-71FA-406A-B1B8-62375A8D80AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D7FA3A5-71FA-406A-B1B8-62375A8D80AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2B9C3AC-9DB8-4113-94DF-945DEE6ABFF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2B9C3AC-9DB8-4113-94DF-945DEE6ABFF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2B9C3AC-9DB8-4113-94DF-945DEE6ABFF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2B9C3AC-9DB8-4113-94DF-945DEE6ABFF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
