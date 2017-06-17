@@ -3,7 +3,7 @@ using System.Text;
 
 namespace GNF.Common.Arithmetic
 {
-    public class HashAlgorithm
+    internal class HashAlgorithm
     {
         public static long Hash(byte[] digest, int nTime)
         {

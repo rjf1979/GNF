@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DtcCacheDemo\IRedisClient.cs" />
+    <Compile Include="DtcCacheDemo\RedisClient.cs" />
+    <Compile Include="DtcCacheDemo\RedisCache.cs" />
+    <Compile Include="DtcCacheDemo\DtcCacheItemOfOrder.cs" />
+    <Compile Include="DtcCacheDemo\Entities\Order.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -50,9 +55,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GNF.Cache\GNF.Cache.csproj">
+      <Project>{fabb085d-25d6-4cfb-8e2c-d073811ae084}</Project>
+      <Name>GNF.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GNF.Common\GNF.Common.csproj">
       <Project>{c2b9c3ac-9db8-4113-94df-945dee6abff9}</Project>
       <Name>GNF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GNF.Distributed\GNF.Distributed.csproj">
+      <Project>{0b8362eb-51d9-42ea-a4a8-f1eebd43c97f}</Project>
+      <Name>GNF.Distributed</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

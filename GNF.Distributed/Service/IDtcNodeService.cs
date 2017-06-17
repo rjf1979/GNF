@@ -11,6 +11,22 @@ namespace GNF.Distributed.Service
     /// </summary>
     public interface IDtcNodeService
     {
-
+        /// <summary>
+        /// 计算分配一个分布式的节点
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        string AllotDtcNode(string key);
+        /// <summary>
+        /// 注册一个分布式节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        void RegisterDtcNode(string node);
+        /// <summary>
+        /// 获取所有分布式节点
+        /// </summary>
+        /// <returns></returns>
+        IList<string> GetAllDtcNodes();
     }
 }

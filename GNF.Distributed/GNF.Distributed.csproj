@@ -42,14 +42,20 @@
   <ItemGroup>
     <Compile Include="Cache\IDtcCache.cs" />
     <Compile Include="Cache\IDtcCacheAsync.cs" />
+    <Compile Include="Cache\IDtcCacheClient.cs" />
     <Compile Include="Cache\IDtcCacheItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\DtcNodeServiceOfAbstract.cs" />
     <Compile Include="Service\IDtcNodeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GNF.Cache\GNF.Cache.csproj">
       <Project>{fabb085d-25d6-4cfb-8e2c-d073811ae084}</Project>
       <Name>GNF.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GNF.Common\GNF.Common.csproj">
+      <Project>{c2b9c3ac-9db8-4113-94df-945dee6abff9}</Project>
+      <Name>GNF.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
