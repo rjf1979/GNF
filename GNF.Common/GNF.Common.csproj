@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GNF.Common</RootNamespace>
     <AssemblyName>GNF.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -43,11 +43,13 @@
   <ItemGroup>
     <Compile Include="Arithmetic\ConsistentHashing.cs" />
     <Compile Include="Arithmetic\HashAlgorithm.cs" />
+    <Compile Include="EnumAttributes\EnumDescriptionAttribute.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\EnumDescriptionExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\AttributeUtility.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Distributed\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
