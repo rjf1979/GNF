@@ -37,7 +37,7 @@ namespace GNF.Common.Extensions
             }
         }
 
-        public static IDictionary<TEnum, string> ToEnumDescriptionDictionary<TEnum>()
+        public static IDictionary<TEnum, string> GetEnumDescriptionDictionary<TEnum>()
         {
             var list = AttributeUtility.GetEnumAttributeDictionary<TEnum, EnumDescriptionAttribute>();
             return list.ToDictionary(a => a.Key, b => b.Value.Text);
