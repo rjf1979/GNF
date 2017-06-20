@@ -192,7 +192,6 @@ namespace GNF.EFUnitwork.Repositories
                     return;
                 }
             }
-
             Delete(entity);
         }
 
