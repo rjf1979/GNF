@@ -41,14 +41,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AggregateRoot.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityNotFoundException.cs" />
+    <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepositoryOfTEntity.cs" />
     <Compile Include="Repositories\IRepositoryOfTEntityAndTPrimaryKey.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="UnitOfWork\ConnectionConfigType.cs" />
+    <Compile Include="UnitOfWork\ConnectionStringResolver.cs" />
+    <Compile Include="UnitOfWork\IActiveUnitOfWork.cs" />
+    <Compile Include="UnitOfWork\IConnectionStringResolver.cs" />
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="UnitOfWork\IUnitOfWorkCompleteHandle.cs" />
+    <Compile Include="UnitOfWork\UnitOfWorkBase.cs" />
+    <Compile Include="UnitOfWork\UnitOfWorkCompleteEventArgs.cs" />
+    <Compile Include="UnitOfWork\UnitOfWorkExceptionEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GNF.Common\GNF.Common.csproj">
+      <Project>{c2b9c3ac-9db8-4113-94df-945dee6abff9}</Project>
+      <Name>GNF.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
