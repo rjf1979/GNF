@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 namespace GNF.Domain.UnitOfWork
 {
     /// <summary>
-    /// This interface is used to work with active unit of work.
-    /// This interface can not be injected.
-    /// Use <see cref="IUnitOfWorkManager"/> instead.
+    /// 可用的工作单元
     /// </summary>
     public interface IActiveUnitOfWork
     {
@@ -21,9 +19,9 @@ namespace GNF.Domain.UnitOfWork
         event EventHandler<UnitOfWorkExceptionEventArgs> Failed;
 
         /// <summary>
-        /// Is this UOW disposed?
+        /// 是否工作单元执行成功
         /// </summary>
-        bool IsDisposed { get; }
+        bool IsSucceed { get; }
 
         /// <summary>
         /// Saves all changes until now in this unit of work.

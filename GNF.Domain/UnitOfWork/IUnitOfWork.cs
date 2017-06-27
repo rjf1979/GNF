@@ -8,10 +8,8 @@ namespace GNF.Domain.UnitOfWork
 {
     /// <summary>
     /// Defines a unit of work.
-    /// This interface is internally used by ABP.
-    /// Use <see cref="IUnitOfWorkManager.Begin()"/> to start a new unit of work.
     /// </summary>
-    public interface IUnitOfWork : IActiveUnitOfWork, IUnitOfWorkCompleteHandle
+    public interface IUnitOfWork : IActiveUnitOfWork
     {
         /// <summary>
         /// Unique id of this UOW.
@@ -22,5 +20,17 @@ namespace GNF.Domain.UnitOfWork
         /// Begins the unit of work with given options.
         /// </summary>
         void Begin();
+
+        /// <summary>
+        /// Completes this unit of work.
+        /// It saves all changes and commit transaction if exists.
+        /// </summary>
+        void Complete();
+
+        /// <summary>
+        /// Completes this unit of work.
+        /// It saves all changes and commit transaction if exists.
+        /// </summary>
+        Task CompleteAsync();
     }
 }

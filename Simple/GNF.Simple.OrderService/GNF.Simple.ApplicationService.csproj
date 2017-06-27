@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D7FA3A5-71FA-406A-B1B8-62375A8D80AA}</ProjectGuid>
+    <ProjectGuid>{29C04DA5-8C2F-4162-B618-E92112A6F7B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GNF.Domain</RootNamespace>
-    <AssemblyName>GNF.Domain</AssemblyName>
+    <RootNamespace>GNF.Simple.OrderService</RootNamespace>
+    <AssemblyName>GNF.Simple.OrderService</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,31 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\AggregateRoot.cs" />
-    <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\EntityNotFoundException.cs" />
-    <Compile Include="Entities\IAggregateRoot.cs" />
-    <Compile Include="Entities\IEntity.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="OrderAppService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IRepositoryOfTEntity.cs" />
-    <Compile Include="Repositories\IRepositoryOfTEntityAndTPrimaryKey.cs" />
-    <Compile Include="Repositories\RepositoryBase.cs" />
-    <Compile Include="UnitOfWork\ConnectionConfigType.cs" />
-    <Compile Include="UnitOfWork\ConnectionStringResolver.cs" />
-    <Compile Include="UnitOfWork\DbContext.cs" />
-    <Compile Include="UnitOfWork\IActiveUnitOfWork.cs" />
-    <Compile Include="UnitOfWork\IDbContext.cs" />
-    <Compile Include="UnitOfWork\IConnectionStringResolver.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
-    <Compile Include="UnitOfWork\UnitOfWorkBase.cs" />
-    <Compile Include="UnitOfWork\UnitOfWorkCompleteEventArgs.cs" />
-    <Compile Include="UnitOfWork\UnitOfWorkExceptionEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GNF.Common\GNF.Common.csproj">
-      <Project>{c2b9c3ac-9db8-4113-94df-945dee6abff9}</Project>
-      <Name>GNF.Common</Name>
+    <ProjectReference Include="..\..\GNF.Domain\GNF.Domain.csproj">
+      <Project>{2d7fa3a5-71fa-406a-b1b8-62375a8d80aa}</Project>
+      <Name>GNF.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GNF.EFUnitwork\GNF.EFUnitwork.csproj">
+      <Project>{6e538ed7-2e02-4ef6-88bf-0d3dbcf79ce1}</Project>
+      <Name>GNF.EFUnitwork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GNF.Simple.Domain\GNF.Simple.Domain.csproj">
+      <Project>{7d99c935-a4aa-43fb-a77c-9115cc256776}</Project>
+      <Name>GNF.Simple.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

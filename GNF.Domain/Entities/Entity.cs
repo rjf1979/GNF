@@ -26,11 +26,12 @@ namespace GNF.Domain.Entities
         public virtual TPrimaryKey Id { get; set; }
 
         /// <summary>
-        /// 是否是临时实体对象（无需持久化）
+        /// 是否是无需持久化实体对象
         /// </summary>
         /// <returns>True, if this entity is transient</returns>
         public virtual bool IsTransient()
         {
+            //检测ID值是否是类型默认值
             if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default(TPrimaryKey)))
             {
                 return true;

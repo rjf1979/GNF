@@ -11,13 +11,8 @@ namespace GNF.Domain.Entities
 
     }
 
-    public interface IAggregateRoot<TPrimaryKey> : IEntity<TPrimaryKey>//, IGeneratesDomainEvents
+    public interface IAggregateRoot<TPrimaryKey> : IEntity<TPrimaryKey>
     {
 
     }
-
-    //public interface IGeneratesDomainEvents
-    //{
-    //    ICollection<IEventData> DomainEvents { get; }
-    //}
 }

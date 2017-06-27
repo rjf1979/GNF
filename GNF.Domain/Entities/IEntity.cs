@@ -8,7 +8,7 @@
         TPrimaryKey Id { get; set; }
 
         /// <summary>
-        /// Checks if this entity is transient (not persisted to database and it has not an <see cref="Id"/>).
+        /// 是否是无需持久化实体对象
         /// </summary>
         /// <returns>True, if this entity is transient</returns>
         bool IsTransient();

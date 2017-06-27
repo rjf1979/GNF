@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using GNF.Domain.Entities;
@@ -10,134 +9,71 @@ namespace GNF.Domain.Repositories
     public abstract class RepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        public abstract IQueryable<TEntity> GetAll();
+        public abstract IList<TEntity> GetAll();
 
-        public virtual IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
+        public virtual async Task<IList<TEntity>> GetAllAsync()
         {
-            return GetAll();
+            return await Task.FromResult(GetAll());
         }
 
-        public virtual List<TEntity> GetAllList()
+        public abstract IList<TEntity> GetList(Expression<Func<TEntity, bool>> predicate);
+
+        public virtual async Task<IList<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return GetAll().ToList();
+            return await Task.FromResult(GetList(predicate));
         }
 
-        public virtual Task<List<TEntity>> GetAllListAsync()
-        {
-            return Task.FromResult(GetAllList());
-        }
-
-        public virtual List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
-        {
-            return GetAll().Where(predicate).ToList();
-        }
-
-        public virtual Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Task.FromResult(GetAllList(predicate));
-        }
-
-        public virtual T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)
-        {
-            return queryMethod(GetAll());
-        }
-
-        public virtual TEntity Get(TPrimaryKey id)
-        {
-            var entity = FirstOrDefault(id);
-            if (entity == null)
-            {
-                throw new EntityNotFoundException(typeof(TEntity), id);
-            }
-
-            return entity;
-        }
+        public abstract TEntity Get(TPrimaryKey id);
 
         public virtual async Task<TEntity> GetAsync(TPrimaryKey id)
         {
-            var entity = await FirstOrDefaultAsync(id);
-            if (entity == null)
-            {
-                throw new EntityNotFoundException(typeof(TEntity), id);
-            }
-
-            return entity;
+            return await Task.FromResult(Get(id));
         }
 
-        public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate)
+        public abstract bool Exists(TEntity entity);
+
+        public virtual async Task<bool> ExistsAsync(TEntity entity)
         {
-            return GetAll().Single(predicate);
+            return await Task.FromResult(Exists(entity));
         }
 
-        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
+        public abstract TEntity Single(Expression<Func<TEntity, bool>> predicate);
+
+        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(Single(predicate));
+            return await Task.FromResult(Single(predicate));
         }
 
-        public virtual TEntity FirstOrDefault(TPrimaryKey id)
-        {
-            return GetAll().FirstOrDefault(CreateEqualityExpressionForId(id));
-        }
+        public abstract TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
-        public virtual Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
+        public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(FirstOrDefault(id));
-        }
-
-        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
-        {
-            return GetAll().FirstOrDefault(predicate);
-        }
-
-        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Task.FromResult(FirstOrDefault(predicate));
-        }
-
-        public virtual TEntity Load(TPrimaryKey id)
-        {
-            return Get(id);
+            return await Task.FromResult(FirstOrDefault(predicate));
         }
 
         public abstract TEntity Insert(TEntity entity);
 
-        public virtual Task<TEntity> InsertAsync(TEntity entity)
+        public virtual async Task<TEntity> InsertAsync(TEntity entity)
         {
-            return Task.FromResult(Insert(entity));
-        }
-
-        public virtual TPrimaryKey InsertAndGetId(TEntity entity)
-        {
-            return Insert(entity).Id;
-        }
-
-        public virtual Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity)
-        {
-            return Task.FromResult(InsertAndGetId(entity));
+            return await Task.FromResult(Insert(entity));
         }
 
         public virtual TEntity InsertOrUpdate(TEntity entity)
         {
-            return entity.IsTransient()
-                ? Insert(entity)
-                : Update(entity);
+            if (Exists(entity))
+            {
+                return Update(entity);
+            }
+            return Insert(entity);
         }
 
         public virtual async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
         {
-            return entity.IsTransient()
-                ? await InsertAsync(entity)
-                : await UpdateAsync(entity);
-        }
-
-        public virtual TPrimaryKey InsertOrUpdateAndGetId(TEntity entity)
-        {
-            return InsertOrUpdate(entity).Id;
-        }
-
-        public virtual Task<TPrimaryKey> InsertOrUpdateAndGetIdAsync(TEntity entity)
-        {
-            return Task.FromResult(InsertOrUpdateAndGetId(entity));
+            if (await ExistsAsync(entity))
+            {
+                return await UpdateAsync(entity);
+            }
+            return await InsertAsync(entity);
         }
 
         public abstract TEntity Update(TEntity entity);
@@ -147,100 +83,39 @@ namespace GNF.Domain.Repositories
             return Task.FromResult(Update(entity));
         }
 
-        public virtual TEntity Update(TPrimaryKey id, Action<TEntity> updateAction)
+        public abstract bool Delete(TEntity entity);
+
+        public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
-            var entity = Get(id);
-            updateAction(entity);
-            return entity;
+            return await Task.FromResult(Delete(entity));
         }
 
-        public virtual async Task<TEntity> UpdateAsync(TPrimaryKey id, Func<TEntity, Task> updateAction)
+        public abstract bool Delete(TPrimaryKey id);
+
+        public virtual async Task<bool> DeleteAsync(TPrimaryKey id)
         {
-            var entity = await GetAsync(id);
-            await updateAction(entity);
-            return entity;
+            return await Task.FromResult(Delete(id));
         }
 
-        public abstract void Delete(TEntity entity);
+        public abstract bool Delete(Expression<Func<TEntity, bool>> predicate);
 
-        public virtual Task DeleteAsync(TEntity entity)
+        public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            Delete(entity);
-            return Task.FromResult(0);
+            return await Task.FromResult(Delete(predicate));
         }
 
-        public abstract void Delete(TPrimaryKey id);
+        public abstract long Count();
 
-        public virtual Task DeleteAsync(TPrimaryKey id)
+        public virtual async Task<long> CountAsync()
         {
-            Delete(id);
-            return Task.FromResult(0);
+            return await Task.FromResult(Count());
         }
 
-        public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
+        public abstract long Count(Expression<Func<TEntity, bool>> predicate);
+
+        public virtual async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            foreach (var entity in GetAll().Where(predicate).ToList())
-            {
-                Delete(entity);
-            }
-        }
-
-        public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            Delete(predicate);
-            return Task.FromResult(0);
-        }
-
-        public virtual int Count()
-        {
-            return GetAll().Count();
-        }
-
-        public virtual Task<int> CountAsync()
-        {
-            return Task.FromResult(Count());
-        }
-
-        public virtual int Count(Expression<Func<TEntity, bool>> predicate)
-        {
-            return GetAll().Where(predicate).Count();
-        }
-
-        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Task.FromResult(Count(predicate));
-        }
-
-        public virtual long LongCount()
-        {
-            return GetAll().LongCount();
-        }
-
-        public virtual Task<long> LongCountAsync()
-        {
-            return Task.FromResult(LongCount());
-        }
-
-        public virtual long LongCount(Expression<Func<TEntity, bool>> predicate)
-        {
-            return GetAll().Where(predicate).LongCount();
-        }
-
-        public virtual Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Task.FromResult(LongCount(predicate));
-        }
-
-        protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
-        {
-            var lambdaParam = Expression.Parameter(typeof(TEntity));
-
-            var lambdaBody = Expression.Equal(
-                Expression.PropertyOrField(lambdaParam, "Id"),
-                Expression.Constant(id, typeof(TPrimaryKey))
-            );
-
-            return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+            return await Task.FromResult(Count(predicate));
         }
     }
 }

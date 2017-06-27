@@ -10,37 +10,15 @@ namespace GNF.Domain.UnitOfWork
     public abstract class UnitOfWorkBase : IUnitOfWork
     {
         public string Id { get; }
-
-        /// <summary>
-        /// Gets the connection string resolver.
-        /// </summary>
-        protected IConnectionStringResolver ConnectionStringResolver { get; }
-
         public event EventHandler<UnitOfWorkCompleteEventArgs> Completed;
         public event EventHandler<UnitOfWorkExceptionEventArgs> Failed;
         private readonly Stopwatch _stopwatch;
-
-        /// <summary>
-        /// Gets a value indicates that this unit of work is disposed or not.
-        /// </summary>
-        public bool IsDisposed { get; private set; }
-
-        /// <summary>
-        /// Is this unit of work successfully completed.
-        /// </summary>
-        public bool IsSuccess { get; protected set; }
-
-        /// <summary>
-        /// A reference to the exception if this unit of work failed.
-        /// </summary>
         private Exception _exception;
+        private readonly IDbContext _dbContext;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        protected UnitOfWorkBase(IConnectionStringResolver connectionStringResolver)
+        protected UnitOfWorkBase(IDbContext dbContext)
         {
-            ConnectionStringResolver = connectionStringResolver;
+            _dbContext = dbContext;
             _stopwatch = new Stopwatch();
             Id = Guid.NewGuid().ToString("N");
         }
@@ -51,19 +29,20 @@ namespace GNF.Domain.UnitOfWork
             _stopwatch.Start();
         }
 
-        /// <inheritdoc/>
+        public bool IsSucceed { get; private set; }
+        
         public abstract void SaveChanges();
 
         /// <inheritdoc/>
         public abstract Task SaveChangesAsync();
 
-        /// <inheritdoc/>
+        protected abstract bool CompleteUnitOfWork();
+
         public void Complete()
         {
             try
             {
-                CompleteUow();
-                IsSuccess = true;
+                IsSucceed = CompleteUnitOfWork();
                 _stopwatch.Stop();
                 OnCompleted(_stopwatch.Elapsed);
             }
@@ -75,13 +54,13 @@ namespace GNF.Domain.UnitOfWork
             }
         }
 
-        /// <inheritdoc/>
+        protected abstract Task<bool> CompleteUnitOfWorkAsync();
+
         public async Task CompleteAsync()
         {
             try
             {
-                await CompleteUowAsync();
-                IsSuccess = true;
+                IsSucceed = await CompleteUnitOfWorkAsync();
                 _stopwatch.Stop();
                 OnCompleted(_stopwatch.Elapsed);
             }
@@ -92,35 +71,9 @@ namespace GNF.Domain.UnitOfWork
                 throw;
             }
         }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            IsDisposed = true;
-            DisposeUow();
-        }
-
-        /// <summary>
-        /// Can be implemented by derived classes to start UOW.
-        /// </summary>
-        protected virtual void BeginUnitOfWork()
-        {
-
-        }
-
-        /// <summary>
-        /// Should be implemented by derived classes to complete UOW.
-        /// </summary>
-        protected abstract void CompleteUow();
-
-        /// <summary>
-        /// Should be implemented by derived classes to complete UOW.
-        /// </summary>
-        protected abstract Task CompleteUowAsync();
-
-        /// <summary>
-        /// 
-        /// </summary>
+        
+        public abstract void Dispose();
+        
         protected virtual void OnCompleted(TimeSpan executeTimeSpan)
         {
             Completed?.Invoke(this,new UnitOfWorkCompleteEventArgs(executeTimeSpan));

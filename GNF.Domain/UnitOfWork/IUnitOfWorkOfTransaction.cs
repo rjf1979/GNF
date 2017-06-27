@@ -4,11 +4,9 @@ using System.Threading.Tasks;
 namespace GNF.Domain.UnitOfWork
 {
     /// <summary>
-    /// Used to complete a unit of work.
-    /// This interface can not be injected or directly used.
-    /// Use <see cref="IUnitOfWorkManager"/> instead.
+    /// 带有事务的工作单元接口
     /// </summary>
-    public interface IUnitOfWorkCompleteHandle : IDisposable
+    public interface IUnitOfWorkOfTransaction : IDisposable
     {
         /// <summary>
         /// Completes this unit of work.
