@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNF.Simple.Repositories", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNF.Simple.Infrastructure", "Simple\GNF.Simple.Infrastructure\GNF.Simple.Infrastructure.csproj", "{3B1040F9-43AE-4A3E-82CB-71F47DCA174A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GNF.SqlSugarUnitOfWork", "GNF.SqlSugarUnitOfWork\GNF.SqlSugarUnitOfWork.csproj", "{AD9BB704-F773-41AE-9788-D88288D0D477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{3B1040F9-43AE-4A3E-82CB-71F47DCA174A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B1040F9-43AE-4A3E-82CB-71F47DCA174A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B1040F9-43AE-4A3E-82CB-71F47DCA174A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD9BB704-F773-41AE-9788-D88288D0D477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD9BB704-F773-41AE-9788-D88288D0D477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD9BB704-F773-41AE-9788-D88288D0D477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD9BB704-F773-41AE-9788-D88288D0D477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

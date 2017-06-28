@@ -1,7 +1,14 @@
 ﻿namespace GNF.Domain.UnitOfWork
 {
-    public abstract class DbContext :IDbContext
+    public abstract class DbContext<TDbContext> :IDbContext<TDbContext>
     {
-        public abstract TDbContext GetDbContext<TDbContext>(IConnectionStringResolver connectionStringResolver);
+        private readonly IConnectionStringResolver _connectionStringResolver;
+
+        protected DbContext(IConnectionStringResolver connectionStringResolver)
+        {
+            _connectionStringResolver = connectionStringResolver;
+        }
+
+        public abstract TDbContext DbContext { get; }
     }
 }

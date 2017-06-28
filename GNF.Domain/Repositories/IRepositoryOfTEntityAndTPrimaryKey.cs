@@ -8,103 +8,92 @@ namespace GNF.Domain.Repositories
 {
     public interface IRepository<TEntity, in TPrimaryKey> : IRepository where TEntity : class, IEntity<TPrimaryKey>
     {
-        //#region Select/Get/Query
+        /// <summary>
+        /// 获取所有实体对象集合
+        /// </summary>
+        IList<TEntity> GetAll(bool isWithNoLock = true);
 
         /// <summary>
         /// 获取所有实体对象集合
         /// </summary>
-        IList<TEntity> GetAll();
-
-        /// <summary>
-        /// 获取所有实体对象集合
-        /// </summary>
-        Task<IList<TEntity>> GetAllAsync();
+        Task<IList<TEntity>> GetAllAsync(bool isWithNoLock = true);
 
         /// <summary>
         /// 指定筛选条件获取实体集合
         /// </summary>
-        IList<TEntity> GetList(Expression<Func<TEntity, bool>> predicate);
+        IList<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
         /// 指定筛选条件获取实体集合
         /// </summary>
         /// <param name="predicate">A condition to filter entities</param>
+        /// <param name="isWithNoLock"></param>
         /// <returns>List of all entities</returns>
-        Task<IList<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IList<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
         /// 指定主键ID获取实体对象
         /// </summary>
-        TEntity Get(TPrimaryKey id);
+        TEntity Get(TPrimaryKey id, bool isWithNoLock = true);
 
         /// <summary>
         /// 指定主键ID获取实体对象
         /// </summary>
-        Task<TEntity> GetAsync(TPrimaryKey id);
+        Task<TEntity> GetAsync(TPrimaryKey id, bool isWithNoLock = true);
 
-        bool Exists(TEntity entity);
+        bool Exists(TEntity entity, bool isWithNoLock = true);
 
-        Task<bool> ExistsAsync(TEntity entity);
+        Task<bool> ExistsAsync(TEntity entity, bool isWithNoLock = true);
         /// <summary>
         /// 指定筛选条件获取单个实体对象
         /// </summary>
-        TEntity Single(Expression<Func<TEntity, bool>> predicate);
+        TEntity Single(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
         /// 指定筛选条件获取单个实体对象
         /// </summary>
-        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate);
-
-        ///// <summary>
-        ///// 指定筛选条件获取单个实体对象
-        ///// </summary>
-        //TEntity FirstOrDefault(TPrimaryKey id);
-
-        ///// <summary>
-        ///// 指定筛选条件获取单个实体对象
-        ///// </summary>
-        //Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id);
+        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
         /// 指定筛选条件获取首个实体对象
         /// </summary>
-        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        TEntity First(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
         /// 指定筛选条件获取首个实体对象
         /// </summary>
-        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
         /// 插入一个实体对象，并且返回插入成功后的实体对象【注意：在领域开发内，虽然对象的hashCode不同，视同相同】
         /// </summary>
         /// <param name="entity">Inserted entity</param>
-        TEntity Insert(TEntity entity);
+        bool Insert(TEntity entity);
 
         /// <summary>
         /// 插入一个实体对象，并且返回插入成功后的实体对象【注意：在领域开发内，虽然对象的hashCode不同，视同相同】
         /// </summary>
-        Task<TEntity> InsertAsync(TEntity entity);
+        Task<bool> InsertAsync(TEntity entity);
 
         /// <summary>
         /// 插入或更新一个实体对象
         /// </summary>
-        TEntity InsertOrUpdate(TEntity entity);
+        bool InsertOrUpdate(TEntity entity);
 
         /// <summary>
         /// 插入或更新一个实体对象
         /// </summary>
-        Task<TEntity> InsertOrUpdateAsync(TEntity entity);
+        Task<bool> InsertOrUpdateAsync(TEntity entity);
 
         /// <summary>
         /// 更新一个实体对象
         /// </summary>
-        TEntity Update(TEntity entity);
+        bool Update(TEntity entity);
 
         /// <summary>
         /// 更新一个实体对象
         /// </summary>
-        Task<TEntity> UpdateAsync(TEntity entity);
+        Task<bool> UpdateAsync(TEntity entity);
 
         /// <summary>
         /// Deletes an entity.
@@ -143,29 +132,29 @@ namespace GNF.Domain.Repositories
         Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        /// Gets count of all entities in this repository.
+        /// 统计数据量
         /// </summary>
         /// <returns>Count of entities</returns>
-        long Count();
+        long Count(bool isWithNoLock = true);
 
         /// <summary>
-        /// Gets count of all entities in this repository.
+        /// 统计数据量
         /// </summary>
-        /// <returns>Count of entities</returns>
-        Task<long> CountAsync();
+        Task<long> CountAsync(bool isWithNoLock = true);
 
         /// <summary>
-        /// Gets count of all entities in this repository based on given <paramref name="predicate"/>.
+        /// 统计数据量
         /// </summary>
-        /// <param name="predicate">A method to filter count</param>
-        /// <returns>Count of entities</returns>
-        long Count(Expression<Func<TEntity, bool>> predicate);
+        /// <param name="predicate">筛选条件</param>
+        /// <param name="isWithNoLock"></param>
+        long Count(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
         /// <summary>
-        /// Gets count of all entities in this repository based on given <paramref name="predicate"/>.
+        /// 统计数据量
         /// </summary>
-        /// <param name="predicate">A method to filter count</param>
+        /// <param name="predicate">筛选条件</param>
+        /// <param name="isWithNoLock"></param>
         /// <returns>Count of entities</returns>
-        Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
     }
 }

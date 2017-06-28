@@ -9,76 +9,76 @@ namespace GNF.Domain.Repositories
     public abstract class RepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        public abstract IList<TEntity> GetAll();
+        public abstract IList<TEntity> GetAll(bool isWithNoLock = true);
 
-        public virtual async Task<IList<TEntity>> GetAllAsync()
+        public virtual async Task<IList<TEntity>> GetAllAsync(bool isWithNoLock = true)
         {
-            return await Task.FromResult(GetAll());
+            return await Task.FromResult(GetAll(isWithNoLock));
         }
 
-        public abstract IList<TEntity> GetList(Expression<Func<TEntity, bool>> predicate);
+        public abstract IList<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
-        public virtual async Task<IList<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IList<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            return await Task.FromResult(GetList(predicate));
+            return await Task.FromResult(GetList(predicate, isWithNoLock));
         }
 
-        public abstract TEntity Get(TPrimaryKey id);
+        public abstract TEntity Get(TPrimaryKey id, bool isWithNoLock = true);
 
-        public virtual async Task<TEntity> GetAsync(TPrimaryKey id)
+        public virtual async Task<TEntity> GetAsync(TPrimaryKey id, bool isWithNoLock = true)
         {
-            return await Task.FromResult(Get(id));
+            return await Task.FromResult(Get(id, isWithNoLock));
         }
 
-        public abstract bool Exists(TEntity entity);
+        public abstract bool Exists(TEntity entity, bool isWithNoLock = true);
 
-        public virtual async Task<bool> ExistsAsync(TEntity entity)
+        public virtual async Task<bool> ExistsAsync(TEntity entity, bool isWithNoLock = true)
         {
-            return await Task.FromResult(Exists(entity));
+            return await Task.FromResult(Exists(entity, isWithNoLock));
         }
 
-        public abstract TEntity Single(Expression<Func<TEntity, bool>> predicate);
+        public abstract TEntity Single(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
-        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            return await Task.FromResult(Single(predicate));
+            return await Task.FromResult(Single(predicate, isWithNoLock));
         }
 
-        public abstract TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        public abstract TEntity First(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
-        public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            return await Task.FromResult(FirstOrDefault(predicate));
+            return await Task.FromResult(First(predicate, isWithNoLock));
         }
 
-        public abstract TEntity Insert(TEntity entity);
+        public abstract bool Insert(TEntity entity);
 
-        public virtual async Task<TEntity> InsertAsync(TEntity entity)
+        public virtual async Task<bool> InsertAsync(TEntity entity)
         {
             return await Task.FromResult(Insert(entity));
         }
 
-        public virtual TEntity InsertOrUpdate(TEntity entity)
+        public virtual bool InsertOrUpdate(TEntity entity)
         {
-            if (Exists(entity))
+            if (Exists(entity, false))
             {
                 return Update(entity);
             }
             return Insert(entity);
         }
 
-        public virtual async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
+        public virtual async Task<bool> InsertOrUpdateAsync(TEntity entity)
         {
-            if (await ExistsAsync(entity))
+            if (await ExistsAsync(entity, false))
             {
                 return await UpdateAsync(entity);
             }
             return await InsertAsync(entity);
         }
 
-        public abstract TEntity Update(TEntity entity);
+        public abstract bool Update(TEntity entity);
 
-        public virtual Task<TEntity> UpdateAsync(TEntity entity)
+        public virtual Task<bool> UpdateAsync(TEntity entity)
         {
             return Task.FromResult(Update(entity));
         }
@@ -104,18 +104,18 @@ namespace GNF.Domain.Repositories
             return await Task.FromResult(Delete(predicate));
         }
 
-        public abstract long Count();
+        public abstract long Count(bool isWithNoLock = true);
 
-        public virtual async Task<long> CountAsync()
+        public virtual async Task<long> CountAsync(bool isWithNoLock = true)
         {
-            return await Task.FromResult(Count());
+            return await Task.FromResult(Count(isWithNoLock));
         }
 
-        public abstract long Count(Expression<Func<TEntity, bool>> predicate);
+        public abstract long Count(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true);
 
-        public virtual async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            return await Task.FromResult(Count(predicate));
+            return await Task.FromResult(Count(predicate, isWithNoLock));
         }
     }
 }

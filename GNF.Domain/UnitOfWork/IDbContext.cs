@@ -1,7 +1,7 @@
 ﻿namespace GNF.Domain.UnitOfWork
 {
-    public interface IDbContext
+    public interface IDbContext<out TDbContext>
     {
-        TDbContext GetDbContext<TDbContext>(IConnectionStringResolver connectionStringResolver);
+        TDbContext Context { get; }
     }
 }
