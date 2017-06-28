@@ -48,6 +48,8 @@
     <Compile Include="QueryHelper.cs" />
     <Compile Include="SqlDbContext.cs" />
     <Compile Include="SqlRepository.cs" />
+    <Compile Include="SqlTransaction.cs" />
+    <Compile Include="SqlUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\MySql.Data.dll" />

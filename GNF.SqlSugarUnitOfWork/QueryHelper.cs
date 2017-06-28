@@ -10,10 +10,5 @@ namespace GNF.SqlSugarUnitOfWork
         {
             return isWithNoLock ? queryable.With(SqlWith.NoLock).ToList() : queryable.ToList();
         }
-
-        public static TEntity Single<TEntity>(ISugarQueryable<TEntity> queryable, bool isWithNoLock)
-        {
-            return isWithNoLock ? queryable.With(SqlWith.NoLock).ToList() : queryable.ToList();
-        }
     }
 }

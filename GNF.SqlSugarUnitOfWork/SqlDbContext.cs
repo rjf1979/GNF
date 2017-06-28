@@ -3,13 +3,22 @@ using SqlSugar;
 
 namespace GNF.SqlSugarUnitOfWork
 {
-    public class SqlDbContext : IDbContext<SqlSugarClient>
+    public class SqlDbContext: IDbContext<SqlSugarClient>
     {
-        public SqlDbContext(IConnectionStringResolver connectionStringResolver)
+        public SqlDbContext(IDbContextResolver dbContextResolver, IConnectionStringResolver connectionStringResolver)
         {
-            Context = new SqlSugarClient(new ConnectionConfig{ ConnectionString = connectionStringResolver.GetConnectionString(),DbType = DbType.SqlServer, InitKeyType = InitKeyType.Attribute,IsAutoCloseConnection = false });
+            Current = dbContextResolver.Resolve<SqlSugarClient>(connectionStringResolver);
         }
 
-        public SqlSugarClient Context { get; }
+        public SqlDbContext(IConnectionStringResolver connectionStringResolver)
+        {
+            Current = new SqlSugarClient(new ConnectionConfig{ ConnectionString = connectionStringResolver.GetConnectionString(),DbType = DbType.SqlServer, InitKeyType = InitKeyType.Attribute,IsAutoCloseConnection = false });
+        }
+
+        public SqlSugarClient Current { get; }
+        public void Dispose()
+        {
+            Current?.Dispose();
+        }
     }
 }

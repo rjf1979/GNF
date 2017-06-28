@@ -1,21 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GNF.Domain.UnitOfWork;
-using GNF.EFUnitwork.UnitOfWork;
-using GNF.Simple.Domain.EntityContexts;
+using GNF.Simple.Domain.Entities;
+using GNF.Simple.Domain.IRepositoies;
+using GNF.Simple.Repositories;
+using GNF.SqlSugarUnitOfWork;
 
 namespace GNF.Simple.OrderService
 {
     public class OrderAppService
     {
-        public void CreateOrder(Domain.Entities.OrderEntity orderEntity)
+        public async void CreateOrder(OrderEntity orderEntity)
         {
-            using (IUnitOfWork unitOfWork = new EFUnitOfWork(new ConnectionStringResolver("dbConnection")))
+            IConnectionStringResolver connectionStringResolver = new ConnectionStringResolver("Name");
+            using (var unitOfWork = new SqlUnitOfWork(connectionStringResolver))
             {
-                var dbContext = new OrderContext()
+                OrderEntity order = new OrderEntity();
+                IOrderRepository orderRepository = new OrderRepository(unitOfWork.DbContext);
+                unitOfWork.Begin();
+                var result = await orderRepository.InsertAsync(order);
+                if (!result)
+                {
+                    unitOfWork.RollBack();
+                    return;
+                }
+                unitOfWork.Complete();
+            }
+        }
+
+        public OrderEntity GetOrder(Guid orderId)
+        {
+            IConnectionStringResolver connectionStringResolver = new ConnectionStringResolver("Name");
+            IDbContextResolver dbContextResolver = new DbContextResolver();
+            using (var dbContext = dbContextResolver.Resolve<SqlDbContext>(connectionStringResolver))
+            {
+                IOrderRepository orderRepository = new OrderRepository(dbContext);
+                return orderRepository.Get(orderId);
             }
         }
     }

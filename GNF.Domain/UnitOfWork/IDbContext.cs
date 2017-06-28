@@ -1,7 +1,9 @@
-﻿namespace GNF.Domain.UnitOfWork
+﻿using System;
+
+namespace GNF.Domain.UnitOfWork
 {
-    public interface IDbContext<out TDbContext>
+    public interface IDbContext<out TDbContext>:IDisposable
     {
-        TDbContext Context { get; }
+        TDbContext Current { get; }
     }
 }

@@ -1,82 +1,86 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace GNF.Domain.UnitOfWork
 {
     /// <summary>
     /// Base for all Unit Of Work classes.
     /// </summary>
-    public abstract class UnitOfWorkBase : IUnitOfWork
+    public abstract class UnitOfWorkBase<TDbClient> : IUnitOfWork<TDbClient>
     {
         public string Id { get; }
         public event EventHandler<UnitOfWorkCompleteEventArgs> Completed;
         public event EventHandler<UnitOfWorkExceptionEventArgs> Failed;
         private readonly Stopwatch _stopwatch;
         private Exception _exception;
-        private readonly IDbContext _dbContext;
 
-        protected UnitOfWorkBase(IDbContext dbContext)
+        protected UnitOfWorkBase(IConnectionStringResolver connectionStringResolver)
         {
-            _dbContext = dbContext;
+            ConnectionStringResolver = connectionStringResolver;
             _stopwatch = new Stopwatch();
             Id = Guid.NewGuid().ToString("N");
         }
+        public IConnectionStringResolver ConnectionStringResolver { get; }
 
-        /// <inheritdoc/>
+        public abstract IDbContext<TDbClient> DbContext { get; }
+
+        public abstract ITransaction Transaction { get; }
+
         public virtual void Begin()
         {
             _stopwatch.Start();
+            try
+            {
+                Transaction?.BeginTran();
+            }
+            catch (Exception exception)
+            {
+                IsSucceed = false;
+                _exception = exception;
+                OnFailed(_stopwatch.Elapsed, _exception);
+            }
+        }
+
+        public void RollBack()
+        {
+            IsSucceed = false;
+            try
+            {
+                Transaction?.RollbackTran();
+                _stopwatch.Stop();
+                OnFailed(_stopwatch.Elapsed, null);
+            }
+            catch (Exception exception)
+            {
+                _exception = exception;
+                OnFailed(_stopwatch.Elapsed, _exception);
+            }
         }
 
         public bool IsSucceed { get; private set; }
-        
-        public abstract void SaveChanges();
 
-        /// <inheritdoc/>
-        public abstract Task SaveChangesAsync();
-
-        protected abstract bool CompleteUnitOfWork();
-
-        public void Complete()
+        public virtual void Complete()
         {
             try
             {
-                IsSucceed = CompleteUnitOfWork();
+                Transaction?.CompleteTran();
+                IsSucceed = true;
                 _stopwatch.Stop();
                 OnCompleted(_stopwatch.Elapsed);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                _exception = ex;
+                _exception = exception;
+                IsSucceed = false;
                 OnFailed(_stopwatch.Elapsed, _exception);
-                throw;
             }
         }
 
-        protected abstract Task<bool> CompleteUnitOfWorkAsync();
-
-        public async Task CompleteAsync()
-        {
-            try
-            {
-                IsSucceed = await CompleteUnitOfWorkAsync();
-                _stopwatch.Stop();
-                OnCompleted(_stopwatch.Elapsed);
-            }
-            catch (Exception ex)
-            {
-                _exception = ex;
-                OnFailed(_stopwatch.Elapsed, _exception);
-                throw;
-            }
-        }
-        
         public abstract void Dispose();
-        
+
         protected virtual void OnCompleted(TimeSpan executeTimeSpan)
         {
-            Completed?.Invoke(this,new UnitOfWorkCompleteEventArgs(executeTimeSpan));
+            Completed?.Invoke(this, new UnitOfWorkCompleteEventArgs(executeTimeSpan));
         }
 
         protected virtual void OnFailed(TimeSpan executeTimeSpan, Exception exception)

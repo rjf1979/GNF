@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GNF.Domain.UnitOfWork
@@ -9,28 +6,33 @@ namespace GNF.Domain.UnitOfWork
     /// <summary>
     /// Defines a unit of work.
     /// </summary>
-    public interface IUnitOfWork : IActiveUnitOfWork
+    public interface IUnitOfWork<out TDbClient> : IActiveUnitOfWork<TDbClient>,IDisposable
     {
         /// <summary>
-        /// Unique id of this UOW.
+        /// 工作单元的唯一ID
         /// </summary>
         string Id { get; }
 
         /// <summary>
-        /// Begins the unit of work with given options.
+        /// 是否工作单元执行成功
+        /// </summary>
+        bool IsSucceed { get; }
+
+        ITransaction Transaction { get; }
+
+        /// <summary>
+        /// 开始一个工作单元，如果存在事务，则执行开始事务
         /// </summary>
         void Begin();
 
         /// <summary>
-        /// Completes this unit of work.
-        /// It saves all changes and commit transaction if exists.
+        /// 工作单元操作回滚
         /// </summary>
-        void Complete();
+        void RollBack();
 
         /// <summary>
-        /// Completes this unit of work.
-        /// It saves all changes and commit transaction if exists.
+        /// 完成工作单元，如果存在事务，则执行完成事务
         /// </summary>
-        Task CompleteAsync();
+        void Complete();
     }
 }

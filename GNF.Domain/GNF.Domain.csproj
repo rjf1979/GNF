@@ -53,9 +53,12 @@
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="UnitOfWork\ConnectionConfigType.cs" />
     <Compile Include="UnitOfWork\ConnectionStringResolver.cs" />
+    <Compile Include="UnitOfWork\DbContextResolver.cs" />
     <Compile Include="UnitOfWork\IActiveUnitOfWork.cs" />
     <Compile Include="UnitOfWork\IDbContext.cs" />
+    <Compile Include="UnitOfWork\IDbContextResolver.cs" />
     <Compile Include="UnitOfWork\IConnectionStringResolver.cs" />
+    <Compile Include="UnitOfWork\ITransaction.cs" />
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkBase.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkCompleteEventArgs.cs" />

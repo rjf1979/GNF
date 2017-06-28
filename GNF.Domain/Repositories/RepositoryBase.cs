@@ -7,7 +7,7 @@ using GNF.Domain.Entities;
 namespace GNF.Domain.Repositories
 {
     public abstract class RepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey>
-        where TEntity : class, IEntity<TPrimaryKey>
+       where TEntity : class, IEntity<TPrimaryKey>
     {
         public abstract IList<TEntity> GetAll(bool isWithNoLock = true);
 

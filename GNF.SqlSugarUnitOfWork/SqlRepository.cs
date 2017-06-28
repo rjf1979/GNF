@@ -10,28 +10,28 @@ namespace GNF.SqlSugarUnitOfWork
 {
     public class SqlRepository<TEntity, TPrimaryKey> : RepositoryBase<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>, new()
     {
-        private readonly IDbContext<SqlSugarClient> _dbContext;
+        protected readonly IDbContext<SqlSugarClient> DbContext;
 
         public SqlRepository(IDbContext<SqlSugarClient> dbContext)
         {
-            _dbContext = dbContext;
+            DbContext = dbContext;
         }
 
         public override IList<TEntity> GetAll(bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>();
+            var query = DbContext.Current.Queryable<TEntity>();
             return QueryHelper.ToList(query, isWithNoLock);
         }
 
         public override IList<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>().Where(predicate);
+            var query = DbContext.Current.Queryable<TEntity>().Where(predicate);
             return QueryHelper.ToList(query, isWithNoLock);
         }
 
         public override TEntity Get(TPrimaryKey id, bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>();
+            var query = DbContext.Current.Queryable<TEntity>();
             return isWithNoLock ? query.With(SqlWith.NoLock).InSingle(id) : query.InSingle(id);
         }
 
@@ -43,25 +43,25 @@ namespace GNF.SqlSugarUnitOfWork
 
         public override TEntity Single(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>();
+            var query = DbContext.Current.Queryable<TEntity>();
             return isWithNoLock ? query.With(SqlWith.NoLock).Single(predicate) : query.Single(predicate);
         }
 
         public override TEntity First(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>();
+            var query = DbContext.Current.Queryable<TEntity>();
             return isWithNoLock ? query.With(SqlWith.NoLock).First(predicate) : query.First(predicate);
         }
 
         public override bool Insert(TEntity entity)
         {
-            _dbContext.Context.Insertable(entity).ExecuteCommand();
+            DbContext.Current.Insertable(entity).ExecuteCommand();
             return true;
         }
 
         public override bool Update(TEntity entity)
         {
-            return _dbContext.Context.Updateable(entity).ExecuteCommand() > 0;
+            return DbContext.Current.Updateable(entity).ExecuteCommand() > 0;
         }
 
         public override bool Delete(TEntity entity)
@@ -72,23 +72,23 @@ namespace GNF.SqlSugarUnitOfWork
 
         public override bool Delete(TPrimaryKey id)
         {
-            return _dbContext.Context.Deleteable<TEntity>().In(id).ExecuteCommand() > 0;
+            return DbContext.Current.Deleteable<TEntity>().In(id).ExecuteCommand() > 0;
         }
 
         public override bool Delete(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbContext.Context.Deleteable<TEntity>().Where(predicate).ExecuteCommand() > 0;
+            return DbContext.Current.Deleteable<TEntity>().Where(predicate).ExecuteCommand() > 0;
         }
 
         public override long Count(bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>();
+            var query = DbContext.Current.Queryable<TEntity>();
             return isWithNoLock ? query.With(SqlWith.NoLock).Count() : query.Count();
         }
 
         public override long Count(Expression<Func<TEntity, bool>> predicate, bool isWithNoLock = true)
         {
-            var query = _dbContext.Context.Queryable<TEntity>();
+            var query = DbContext.Current.Queryable<TEntity>();
             return isWithNoLock ? query.With(SqlWith.NoLock).Where(predicate).Count() : query.Where(predicate).Count();
         }
     }
