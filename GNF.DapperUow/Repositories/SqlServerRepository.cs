@@ -54,42 +54,46 @@ namespace GNF.DapperUow.Repositories
             return value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public override bool Update(TEntity data)
+        public override bool Update(TEntity entity)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             ValidateConnection();
             var conn = OpenDbConnection();
-            var value = conn.Update(data, DbTransaction);
+            var value = conn.Update(entity, DbTransaction);
             CloseConnection(conn);
             return value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public override bool Remove(TEntity data)
+        public override async Task<bool> UpdateAsync(TEntity entity)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             ValidateConnection();
             var conn = OpenDbConnection();
-            var value = conn.Delete(data, DbTransaction);
+            var value = await conn.UpdateAsync(entity, DbTransaction);
             CloseConnection(conn);
             return value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="parameterObject"></param>
-        /// <returns></returns>
+        public override bool Remove(TEntity entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            var value = conn.Delete(entity, DbTransaction);
+            CloseConnection(conn);
+            return value;
+        }
+
+        public override async Task<bool> RemoveAsync(TEntity entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            var value = await conn.DeleteAsync(entity, DbTransaction);
+            CloseConnection(conn);
+            return value;
+        }
+
         public override TEntity Get(string sql, object parameterObject = null)
         {
             if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
@@ -100,12 +104,17 @@ namespace GNF.DapperUow.Repositories
             return value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public override TEntity GetById(dynamic id)
+        public override async Task<TEntity> GetAsync(string sql, object parameterObject = null)
+        {
+            if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            var value = await conn.QueryFirstOrDefaultAsync<TEntity>(sql, parameterObject, DbTransaction);
+            CloseConnection(conn);
+            return value;
+        }
+
+        public override TEntity Get(dynamic id)
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
             ValidateConnection();
@@ -115,18 +124,12 @@ namespace GNF.DapperUow.Repositories
             return value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="isUpdateLock"></param>
-        /// <returns></returns>
-        public override TEntity GetById(dynamic id, bool isUpdateLock)
+        public override async Task<TEntity> GetAsync(dynamic id)
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
             ValidateConnection();
             var conn = OpenDbConnection();
-            var value = SqlMapperExtensions.Get<TEntity>(conn, id, DbTransaction);
+            var value = await SqlMapperExtensions.GetAsync<TEntity>(conn, id, DbTransaction);
             CloseConnection(conn);
             return value;
         }
@@ -147,6 +150,16 @@ namespace GNF.DapperUow.Repositories
             return values;
         }
 
+        public override async Task<IList<TEntity>> GetListAsync(string sql, object parameterObject = null)
+        {
+            if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            var values = await conn.QueryAsync<TEntity>(sql, parameterObject, DbTransaction);
+            CloseConnection(conn);
+            return values.ToList();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -160,21 +173,31 @@ namespace GNF.DapperUow.Repositories
             return list;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="whereSql"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="parameterObjects"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public override Paging<TEntity> GetPagedList(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize)
+        public override async Task<IList<TEntity>> GetAllAsync()
+        {
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            var list = await conn.GetAllAsync<TEntity>();
+            CloseConnection(conn);
+            return list.ToList();
+        }
+
+        public override Paging<TEntity> Paging(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize)
         {
             ValidateConnection();
             var conn = OpenDbConnection();
             Paging<TEntity> pagedList = new Paging<TEntity>(pageIndex, pageSize, whereSql, orderBy);
             conn.QueryPaging(ref pagedList, parameterObjects);
+            CloseConnection(conn);
+            return pagedList;
+        }
+
+        public override async Task<Paging<TEntity>> PagingAsync(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize)
+        {
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            Paging<TEntity> pagedList = new Paging<TEntity>(pageIndex, pageSize, whereSql, orderBy);
+            pagedList = await conn.QueryPagingAsync(pagedList, parameterObjects);
             CloseConnection(conn);
             return pagedList;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using GNF.Common.Utility;
@@ -18,6 +19,16 @@ namespace GNF.DapperUow
             var countSql = $"SELECT COUNT(0) FROM {paging.Table} {paging.WhereSql} ";
             var total = connection.QueryFirstOrDefault<int>(countSql, paramterObjects);
             paging.FillQueryData(total, datas);
+        }
+
+        public static async Task<Paging<TEntity>> QueryPagingAsync<TEntity>(this IDbConnection connection, Paging<TEntity> paging, object paramterObjects = null, int? commandTimeout = null)
+        {
+            var sql = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER ({1}) AS RowNumber, {0} FROM {2}{3}) AS Total WHERE RowNumber >= {4} AND RowNumber <= {5}", paging.Columns, paging.OrderBy, paging.Table, paging.WhereSql, (paging.PageIndex - 1) * paging.PageSize + 1, paging.PageIndex * paging.PageSize);
+            var datas = await connection.QueryAsync<TEntity>(sql, paramterObjects, null, commandTimeout);
+            var countSql = $"SELECT COUNT(0) FROM {paging.Table} {paging.WhereSql} ";
+            var total = connection.QueryFirstOrDefault<int>(countSql, paramterObjects);
+            paging.FillQueryData(total, datas.ToList());
+            return paging;
         }
 
         /// <summary>

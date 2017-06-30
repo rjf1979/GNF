@@ -40,13 +40,13 @@
       <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net45\Dapper.Contrib.dll</HintPath>
     </Reference>
     <Reference Include="GNF.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperUow.0.0.1\lib\net452\GNF.Common.dll</HintPath>
+      <HintPath>..\packages\DapperUow.0.0.2\lib\net452\GNF.Common.dll</HintPath>
     </Reference>
     <Reference Include="GNF.DapperUow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperUow.0.0.1\lib\net452\GNF.DapperUow.dll</HintPath>
+      <HintPath>..\packages\DapperUow.0.0.2\lib\net452\GNF.DapperUow.dll</HintPath>
     </Reference>
     <Reference Include="GNF.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperUow.0.0.1\lib\net452\GNF.Domain.dll</HintPath>
+      <HintPath>..\packages\DapperUow.0.0.2\lib\net452\GNF.Domain.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

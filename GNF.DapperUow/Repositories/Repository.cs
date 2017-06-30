@@ -24,25 +24,14 @@ namespace GNF.DapperUow.Repositories
             
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public IDbConnection DbConnection { get; private set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dbConnection"></param>
-        /// <returns></returns>
         public IRepository<TEntity> SetDbConnection(IDbConnection dbConnection)
         {
             DbConnection = dbConnection;
             return this;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         protected virtual void ValidateConnection()
         {
             if (DbConnection == null)
@@ -55,66 +44,28 @@ namespace GNF.DapperUow.Repositories
 
         public abstract Task<bool> InsertAsync(TEntity entity);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public abstract bool Update(TEntity data);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <returns></returns>
+        public abstract Task<bool> UpdateAsync(TEntity entity);
+
         public abstract bool Remove(TEntity condition);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="parameterObject"></param>
-        /// <returns></returns>
+        public abstract Task<bool> RemoveAsync(TEntity condition);
+
         public abstract TEntity Get(string sql, object parameterObject = null);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public abstract TEntity GetById(dynamic id);
+        public abstract Task<TEntity> GetAsync(string sql, object parameterObject = null);
+        public abstract TEntity Get(dynamic id);
+        public abstract Task<TEntity> GetAsync(dynamic id);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="isUpdateLock"></param>
-        /// <returns></returns>
-        public abstract TEntity GetById(dynamic id, bool isUpdateLock);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="parameterObject"></param>
-        /// <returns></returns>
         public abstract IList<TEntity> GetList(string sql, object parameterObject = null);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        public abstract Task<IList<TEntity>> GetListAsync(string sql, object parameterObject = null);
         public abstract IList<TEntity> GetAll();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="whereSql"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="parameterObjects"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public abstract Paging<TEntity> GetPagedList(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize);
+        public abstract Task<IList<TEntity>> GetAllAsync();
+
+        public abstract Paging<TEntity> Paging(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize);
+        public abstract Task<Paging<TEntity>> PagingAsync(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize);
     }
 }

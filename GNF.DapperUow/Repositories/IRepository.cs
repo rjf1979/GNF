@@ -24,75 +24,44 @@ namespace GNF.DapperUow.Repositories
         /// <param name="dbConnection"></param>
         IRepository<TEntity> SetDbConnection(IDbConnection dbConnection);
 
-        /// <summary>
-        /// Add a new item into the repository
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
         bool Insert(TEntity entity);
 
         Task<bool> InsertAsync(TEntity entity);
 
-        /// <summary>
-        /// Save the modified item to the repository
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        bool Update(TEntity data);
+        bool Update(TEntity entity);
 
-        /// <summary>
-        /// Remove item from the repository by custom condition
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <returns></returns>
+        Task<bool> UpdateAsync(TEntity entity);
+
         bool Remove(TEntity condition);
 
-        /// <summary>
-        /// Get single item from the repository by custom condition
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="parameterObject"></param>
-        /// <returns></returns>
+        Task<bool> RemoveAsync(TEntity condition);
+
         TEntity Get(string sql,object parameterObject = null);
 
-        /// <summary>
-        /// 指定Id，获取一个实体对象；如果在事务内读取，会自动加上更新锁 WITH(UPDLOCK)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        TEntity GetById(dynamic id);
+        Task<TEntity> GetAsync(string sql, object parameterObject = null);
 
-        /// <summary>
-        /// 指定Id，获取一个实体对象；如果要求附带UPDLOCK更新锁，就能防止脏读数据
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="isUpdateLock"></param>
-        /// <returns></returns>
-        TEntity GetById(dynamic id,bool isUpdateLock);
+        TEntity Get(dynamic id);
 
-        /// <summary>
-        /// Get multi items from the repository by custom condition
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="parameterObject"></param>
-        /// <returns></returns>
+        Task<TEntity> GetAsync(dynamic id);
+
+        ///// <summary>
+        ///// 指定Id，获取一个实体对象；如果要求附带UPDLOCK更新锁，就能防止脏读数据
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="isUpdateLock"></param>
+        ///// <returns></returns>
+        //TEntity GetById(dynamic id,bool isUpdateLock);
+
         IList<TEntity> GetList(string sql, object parameterObject = null);
 
-        /// <summary>
-        /// Get all items from the repository by custom condition
-        /// </summary>
-        /// <returns></returns>
+        Task<IList<TEntity>> GetListAsync(string sql, object parameterObject = null);
+
         IList<TEntity> GetAll();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="whereSql"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="parameterObjects"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        Paging<TEntity> GetPagedList(string whereSql, string orderBy,object parameterObjects, int pageIndex, int pageSize);
+        Task<IList<TEntity>> GetAllAsync();
+
+        Paging<TEntity> Paging(string whereSql, string orderBy,object parameterObjects, int pageIndex, int pageSize);
+
+        Task<Paging<TEntity>> PagingAsync(string whereSql, string orderBy, object parameterObjects, int pageIndex, int pageSize);
     }
 }
