@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GNF.ConsoleTest.DtcCacheDemo;
-using GNF.ConsoleTest.DtcCacheDemo.Entities;
+﻿
+using System;
+using GNF.Common.Encrypt;
 
 namespace GNF.ConsoleTest
 {
@@ -12,6 +8,12 @@ namespace GNF.ConsoleTest
     {
         static void Main(string[] args)
         {
+            var key = RSA.GetRasKey();
+            var str = "abc";
+            var estr = RSA.EncryptString(str, key.PublicKey);//加密
+            var dest = RSA.DecryptString(estr, key.PrivateKey);//解密
+            Console.WriteLine(dest);
+            Console.Read();
             //Order order = new Order
             //{
             //    OrderId = Guid.NewGuid(),
@@ -29,24 +31,6 @@ namespace GNF.ConsoleTest
             //var cacheItem = redisCache.GetAsync(order.OrderId.ToString()).Result;
             //Console.WriteLine($"查到的订单号：{cacheItem.Value.OrderNo}");
             //Console.Read();
-
-            while (true)
-            {
-                Task.Run(() =>
-                {
-                    var n = Inc();
-                    _dictionary.Add(n, n);
-                });
-            }
-        }
-
-        static readonly IDictionary<int, int> _dictionary = new Dictionary<int, int>();
-        private static int i = 0;
-
-        static int Inc()
-        {
-            i++;
-            return i;
         }
     }
 }

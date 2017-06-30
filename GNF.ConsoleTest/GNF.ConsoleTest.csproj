@@ -33,21 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net45\Dapper.Contrib.dll</HintPath>
-    </Reference>
-    <Reference Include="GNF.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperUow.0.0.2\lib\net452\GNF.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="GNF.DapperUow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperUow.0.0.2\lib\net452\GNF.DapperUow.dll</HintPath>
-    </Reference>
-    <Reference Include="GNF.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DapperUow.0.0.2\lib\net452\GNF.Domain.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -59,17 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DtcCacheDemo\IRedisClient.cs" />
-    <Compile Include="DtcCacheDemo\RedisClient.cs" />
-    <Compile Include="DtcCacheDemo\RedisCache.cs" />
-    <Compile Include="DtcCacheDemo\DtcCacheItemOfOrder.cs" />
-    <Compile Include="DtcCacheDemo\Entities\Order.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GNF.Common\GNF.Common.csproj">
+      <Project>{c2b9c3ac-9db8-4113-94df-945dee6abff9}</Project>
+      <Name>GNF.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
