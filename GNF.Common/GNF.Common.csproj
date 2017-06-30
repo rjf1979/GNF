@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AttributeUtility.cs" />
     <Compile Include="Utility\Configuration.cs" />
+    <Compile Include="Utility\FastMethodUtility.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

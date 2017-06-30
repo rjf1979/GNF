@@ -138,5 +138,18 @@ namespace GNF.Common.Utility
             var attrs = parameterInfo.GetCustomAttributes(typeof(TArrtibute), inhert) as TArrtibute[];
             return attrs?.Length > 0 ? attrs[0] : null;
         }
+
+        /// <summary>
+        /// 获取一个类上的特性
+        /// </summary>
+        /// <typeparam name="TArrtibute"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="inhert"></param>
+        /// <returns></returns>
+        public static TArrtibute GetAttribute<TArrtibute>(Type type, bool inhert = false) where TArrtibute : Attribute
+        {
+            var attrs = type.GetCustomAttributes(typeof(TArrtibute), inhert) as TArrtibute[];
+            return attrs?.Length > 0 ? attrs[0] : null;
+        }
     }
 }
