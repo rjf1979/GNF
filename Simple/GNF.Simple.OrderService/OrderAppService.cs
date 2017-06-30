@@ -3,18 +3,17 @@ using GNF.Domain.UnitOfWork;
 using GNF.Simple.Domain.Entities;
 using GNF.Simple.Domain.IRepositoies;
 using GNF.Simple.Repositories;
-using GNF.SqlSugarUnitOfWork;
 
 namespace GNF.Simple.OrderService
 {
     public class OrderAppService
     {
-        public async void CreateOrder(OrderEntity orderEntity)
+        public async void CreateOrder(WorkOrderFlowEntity orderEntity)
         {
             IConnectionStringResolver connectionStringResolver = new ConnectionStringResolver("Name");
-            using (var unitOfWork = new SqlUnitOfWork(connectionStringResolver))
+            using (var unitOfWork = new EFUow.EfUnitOfWork(connectionStringResolver))
             {
-                OrderEntity order = new OrderEntity();
+                WorkOrderFlowEntity order = new WorkOrderFlowEntity();
                 IOrderRepository orderRepository = new OrderRepository(unitOfWork.DbContext);
                 unitOfWork.Begin();
                 var result = await orderRepository.InsertAsync(order);
@@ -27,7 +26,7 @@ namespace GNF.Simple.OrderService
             }
         }
 
-        public OrderEntity GetOrder(Guid orderId)
+        public WorkOrderFlowEntity GetOrder(Guid orderId)
         {
             IConnectionStringResolver connectionStringResolver = new ConnectionStringResolver("Name");
             IDbContextResolver dbContextResolver = new DbContextResolver();

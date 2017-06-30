@@ -6,7 +6,7 @@ namespace GNF.Domain.UnitOfWork
     {
         public virtual TDbContext Resolve<TDbContext>(IConnectionStringResolver connectionStringResolver)
         {
-            return (TDbContext)Activator.CreateInstance(typeof(TDbContext), connectionStringResolver);
+            return (TDbContext)Activator.CreateInstance(typeof(TDbContext), connectionStringResolver.GetNameOrConnectionString());
         }
     }
 }

@@ -7,7 +7,6 @@ namespace GNF.Domain.Entities
     /// <summary>
     /// 实体抽象类
     /// </summary>
-    [Serializable]
     public abstract class Entity : Entity<int>, IEntity
     {
 
@@ -17,7 +16,6 @@ namespace GNF.Domain.Entities
     /// 实体抽象类
     /// </summary>
     /// <typeparam name="TPrimaryKey">Type of the primary key of the entity</typeparam>
-    [Serializable]
     public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
         /// <summary>
@@ -49,8 +47,7 @@ namespace GNF.Domain.Entities
 
             return false;
         }
-
-        /// <inheritdoc/>
+        
         public override bool Equals(object obj)
         {
             if (!(obj is Entity<TPrimaryKey>))

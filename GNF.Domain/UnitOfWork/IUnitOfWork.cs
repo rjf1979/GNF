@@ -6,7 +6,7 @@ namespace GNF.Domain.UnitOfWork
     /// <summary>
     /// Defines a unit of work.
     /// </summary>
-    public interface IUnitOfWork<out TDbClient> : IActiveUnitOfWork<TDbClient>,IDisposable
+    public interface IUnitOfWork<out TDbContext> : IActiveUnitOfWork<TDbContext>,IDisposable
     {
         /// <summary>
         /// 工作单元的唯一ID
@@ -18,17 +18,10 @@ namespace GNF.Domain.UnitOfWork
         /// </summary>
         bool IsSucceed { get; }
 
-        ITransaction Transaction { get; }
-
         /// <summary>
         /// 开始一个工作单元，如果存在事务，则执行开始事务
         /// </summary>
         void Begin();
-
-        /// <summary>
-        /// 工作单元操作回滚
-        /// </summary>
-        void RollBack();
 
         /// <summary>
         /// 完成工作单元，如果存在事务，则执行完成事务

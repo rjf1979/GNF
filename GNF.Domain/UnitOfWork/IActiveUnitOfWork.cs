@@ -5,7 +5,7 @@ namespace GNF.Domain.UnitOfWork
     /// <summary>
     /// 可用的工作单元
     /// </summary>
-    public interface IActiveUnitOfWork<out TDbClient>
+    public interface IActiveUnitOfWork<out TDbContext>
     {
         /// <summary>
         /// This event is raised when this UOW is successfully completed.
@@ -17,6 +17,6 @@ namespace GNF.Domain.UnitOfWork
         /// </summary>
         event EventHandler<UnitOfWorkExceptionEventArgs> Failed;
         IConnectionStringResolver ConnectionStringResolver { get; }
-        IDbContext<TDbClient> DbContext { get; }
+        TDbContext DbContext { get; }
     }
 }

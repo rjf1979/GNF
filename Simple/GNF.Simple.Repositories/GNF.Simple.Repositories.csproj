@@ -31,8 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SqlSugar, Version=4.1.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\sqlSugar.4.1.0.3\lib\net40\SqlSugar.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -45,21 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrderRepository.cs" />
+    <Compile Include="Contexts\WorkOrderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Compile Include="WorkOrderRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GNF.Domain\GNF.Domain.csproj">
       <Project>{2d7fa3a5-71fa-406a-b1b8-62375a8d80aa}</Project>
       <Name>GNF.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GNF.SqlSugarUnitOfWork\GNF.SqlSugarUnitOfWork.csproj">
-      <Project>{ad9bb704-f773-41ae-9788-d88288d0d477}</Project>
-      <Name>GNF.SqlSugarUnitOfWork</Name>
     </ProjectReference>
     <ProjectReference Include="..\GNF.Simple.Domain\GNF.Simple.Domain.csproj">
       <Project>{7d99c935-a4aa-43fb-a77c-9115cc256776}</Project>
@@ -67,8 +63,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lib\MySql.Data.dll" />
-    <Content Include="Lib\Newtonsoft.Json.dll" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

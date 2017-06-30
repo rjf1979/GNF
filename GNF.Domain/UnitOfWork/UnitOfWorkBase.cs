@@ -1,80 +1,34 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace GNF.Domain.UnitOfWork
 {
     /// <summary>
     /// Base for all Unit Of Work classes.
     /// </summary>
-    public abstract class UnitOfWorkBase<TDbClient> : IUnitOfWork<TDbClient>
+    public abstract class UnitOfWorkBase<TDbContext> : IUnitOfWork<TDbContext>
     {
         public string Id { get; }
         public event EventHandler<UnitOfWorkCompleteEventArgs> Completed;
         public event EventHandler<UnitOfWorkExceptionEventArgs> Failed;
-        private readonly Stopwatch _stopwatch;
-        private Exception _exception;
+        //private readonly Stopwatch _stopwatch;
+        //private Exception _exception;
 
         protected UnitOfWorkBase(IConnectionStringResolver connectionStringResolver)
         {
             ConnectionStringResolver = connectionStringResolver;
-            _stopwatch = new Stopwatch();
+            //_stopwatch = new Stopwatch();
             Id = Guid.NewGuid().ToString("N");
         }
         public IConnectionStringResolver ConnectionStringResolver { get; }
 
-        public abstract IDbContext<TDbClient> DbContext { get; }
+        public abstract TDbContext DbContext { get; }
 
-        public abstract ITransaction Transaction { get; }
+        public abstract void Begin();
+        
+        public bool IsSucceed { get; protected set; }
+        public Exception Exception { get; protected set; }
 
-        public virtual void Begin()
-        {
-            _stopwatch.Start();
-            try
-            {
-                Transaction?.BeginTran();
-            }
-            catch (Exception exception)
-            {
-                IsSucceed = false;
-                _exception = exception;
-                OnFailed(_stopwatch.Elapsed, _exception);
-            }
-        }
-
-        public void RollBack()
-        {
-            IsSucceed = false;
-            try
-            {
-                Transaction?.RollbackTran();
-                _stopwatch.Stop();
-                OnFailed(_stopwatch.Elapsed, null);
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
-                OnFailed(_stopwatch.Elapsed, _exception);
-            }
-        }
-
-        public bool IsSucceed { get; private set; }
-
-        public virtual void Complete()
-        {
-            try
-            {
-                Transaction?.CompleteTran();
-                IsSucceed = true;
-                _stopwatch.Stop();
-                OnCompleted(_stopwatch.Elapsed);
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
-                IsSucceed = false;
-                OnFailed(_stopwatch.Elapsed, _exception);
-            }
-        }
+        public abstract void Complete();
 
         public abstract void Dispose();
 

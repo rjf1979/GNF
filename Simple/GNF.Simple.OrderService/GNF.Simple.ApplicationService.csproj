@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SqlSugar, Version=4.1.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\sqlSugar.4.1.0.3\lib\net40\SqlSugar.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,10 +49,6 @@
       <Project>{2d7fa3a5-71fa-406a-b1b8-62375a8d80aa}</Project>
       <Name>GNF.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GNF.SqlSugarUnitOfWork\GNF.SqlSugarUnitOfWork.csproj">
-      <Project>{ad9bb704-f773-41ae-9788-d88288d0d477}</Project>
-      <Name>GNF.SqlSugarUnitOfWork</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GNF.Simple.Domain\GNF.Simple.Domain.csproj">
       <Project>{7d99c935-a4aa-43fb-a77c-9115cc256776}</Project>
       <Name>GNF.Simple.Domain</Name>
@@ -64,13 +57,6 @@
       <Project>{b9d4d681-36e7-4f03-ba9a-ad90c616ded1}</Project>
       <Name>GNF.Simple.Repositories</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Lib\MySql.Data.dll" />
-    <Content Include="Lib\Newtonsoft.Json.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

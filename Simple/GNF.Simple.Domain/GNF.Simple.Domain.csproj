@@ -48,9 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\OrderEntity.cs" />
-    <Compile Include="EntityContexts\OrderContext.cs" />
+    <Compile Include="Entities\WorkOrderFlowEntity.cs" />
+    <Compile Include="Entities\WorkOrderEntity.cs" />
     <Compile Include="IRepositoies\IOrderRepository.cs" />
+    <Compile Include="IRepositoies\IWorkOrderRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,13 +59,8 @@
       <Project>{2d7fa3a5-71fa-406a-b1b8-62375a8d80aa}</Project>
       <Name>GNF.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GNF.Simple.Infrastructure\GNF.Simple.Infrastructure.csproj">
-      <Project>{3b1040f9-43ae-4a3e-82cb-71f47dca174a}</Project>
-      <Name>GNF.Simple.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
