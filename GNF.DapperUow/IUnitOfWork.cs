@@ -2,7 +2,7 @@
 using System.Data;
 using GNF.Domain.Entities;
 
-namespace GNF.DapperUow.UnitOfWork
+namespace GNF.DapperUow
 {
     /// <summary>
     /// 表示所有集成于该接口的类型都是Unit Of Work的一种实现。

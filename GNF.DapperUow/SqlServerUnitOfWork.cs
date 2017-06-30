@@ -11,7 +11,7 @@ using GNF.Common.Utility;
 using GNF.DapperUow.Repositories;
 using GNF.Domain.Entities;
 
-namespace GNF.DapperUow.UnitOfWork
+namespace GNF.DapperUow
 {
     /// <summary>
     /// 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GNF.DapperUow.UnitOfWork
+namespace GNF.DapperUow
 {
     /// <summary>
     /// Represents that the derived classes are disposable objects.

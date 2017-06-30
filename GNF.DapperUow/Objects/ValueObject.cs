@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GNF.DapperUow
+namespace GNF.DapperUow.Objects
 {
     //Inspired from https://blogs.msdn.microsoft.com/cesardelatorre/2011/06/06/implementing-a-value-object-base-class-supertype-patternddd-patterns-related/
     /// <summary>

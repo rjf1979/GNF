@@ -1,11 +1,11 @@
 using GNF.Domain.Entities;
 
-namespace GNF.DapperUow
+namespace GNF.DapperUow.Objects
 {
     /// <summary>
     /// 
     /// </summary>
-    public class AggregateRoot : AggregateRoot<int>, IAggregateRoot
+    public interface IAggregateRoot : IAggregateRoot<int>
     {
 
     }
@@ -14,7 +14,7 @@ namespace GNF.DapperUow
     /// 
     /// </summary>
     /// <typeparam name="TPrimaryKey"></typeparam>
-    public abstract class AggregateRoot<TPrimaryKey> : Entity<TPrimaryKey>, IAggregateRoot<TPrimaryKey>
+    public interface IAggregateRoot<TPrimaryKey> : IEntity<TPrimaryKey>
     {
 
     }

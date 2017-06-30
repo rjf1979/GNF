@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using GNF.Domain.Entities;
 
-namespace GNF.DapperUow.UnitOfWork
+namespace GNF.DapperUow
 {
     /// <summary>
     /// Represents the base class for repository contexts.
@@ -192,8 +192,8 @@ namespace GNF.DapperUow.UnitOfWork
         /// </summary>
         public bool Committed
         {
-            get { return _localCommitted.Value; }
-            protected set { _localCommitted.Value = value; }
+            get => _localCommitted.Value;
+            protected set => _localCommitted.Value = value;
         }
 
         /// <summary>

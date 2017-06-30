@@ -1,7 +1,7 @@
 ﻿using System;
 using GNF.Domain.Entities;
 
-namespace GNF.DapperUow.UnitOfWork
+namespace GNF.DapperUow
 {
     /// <summary>
     /// 
