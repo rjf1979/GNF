@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using GNF.Domain.Entities;
 
 namespace GNF.DapperUow.Repositories
@@ -26,16 +27,18 @@ namespace GNF.DapperUow.Repositories
         /// <summary>
         /// Add a new item into the repository
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
-        bool Add(TEntity data);
+        bool Insert(TEntity entity);
+
+        Task<bool> InsertAsync(TEntity entity);
 
         /// <summary>
         /// Save the modified item to the repository
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        bool Save(TEntity data);
+        bool Update(TEntity data);
 
         /// <summary>
         /// Remove item from the repository by custom condition

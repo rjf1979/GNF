@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using GNF.Domain.Entities;
@@ -33,17 +34,22 @@ namespace GNF.DapperUow.Repositories
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public override bool Add(TEntity data)
+        public override bool Insert(TEntity entity)
         {
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             ValidateConnection();
             var conn = OpenDbConnection();
-            var value = conn.Insert(data, DbTransaction) > 0;
+            var value = conn.Insert(entity, DbTransaction) > 0;
+            CloseConnection(conn);
+            return value;
+        }
+
+        public override async Task<bool> InsertAsync(TEntity entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            ValidateConnection();
+            var conn = OpenDbConnection();
+            var value = await conn.InsertAsync(entity, DbTransaction) > 0;
             CloseConnection(conn);
             return value;
         }
@@ -53,7 +59,7 @@ namespace GNF.DapperUow.Repositories
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public override bool Save(TEntity data)
+        public override bool Update(TEntity data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             ValidateConnection();

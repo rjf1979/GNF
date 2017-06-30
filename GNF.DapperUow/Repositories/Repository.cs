@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using GNF.Domain.Entities;
 
 namespace GNF.DapperUow.Repositories
@@ -49,20 +50,17 @@ namespace GNF.DapperUow.Repositories
                 throw new ArgumentNullException($"DbConnection is empty");
             }
         }
+        
+        public abstract bool Insert(TEntity entity);
+
+        public abstract Task<bool> InsertAsync(TEntity entity);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public abstract bool Add(TEntity data);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public abstract bool Save(TEntity data);
+        public abstract bool Update(TEntity data);
 
         /// <summary>
         /// 
